@@ -16,7 +16,7 @@ export default function UsesPage({ t, tracks, navigate }) {
       {/* Sections */}
       <div className="divide-y divide-[#eeecea] dark:divide-[#2a2a27]">
         {uses.sections.map((section, idx) => (
-          <section key={idx} className="py-8 grid grid-cols-[7rem_1fr] gap-6 items-start">
+          <section key={idx} className="py-8 grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-6 items-start">
 
             {/* Label */}
             <p className="font-mono text-xs text-[#6b6b66] dark:text-[#555451] pt-1">

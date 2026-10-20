@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Moon, Sun, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import {
+  Moon, Sun, ArrowUpRight, CheckCircle2,
+  House, Activity, Wrench, Lightbulb, Mail,
+  SlidersHorizontal, Check
+} from 'lucide-react';
 import { translations } from './translations';
 import UsesPage from './pages/Uses';
 import TilPage from './pages/Til';
@@ -21,6 +25,9 @@ export default function App() {
   const [loc, setLoc] = useState(getLoc);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [dockHidden, setDockHidden] = useState(false);
+  const [dockSettingsOpen, setDockSettingsOpen] = useState(false);
+  const dockRef = useRef(null);
 
   const t = translations[lang];
 
@@ -38,14 +45,43 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
+  // Outside click for dock settings
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dockRef.current && !dockRef.current.contains(e.target)) {
+        setDockSettingsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Dark mode
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
-  // Navbar border on scroll (threshold 8px, persis seperti up2dul)
+  // Scroll & Dock visibility
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 8);
+        if (y <= 64) {
+          setDockHidden(false);
+        } else if (y > lastY + 12) {
+          setDockHidden(true);
+        } else if (y < lastY - 8) {
+          setDockHidden(false);
+        }
+        lastY = y;
+        ticking = false;
+      });
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -87,6 +123,7 @@ export default function App() {
   const navigate = (to) => {
     window.history.pushState({}, '', to);
     setLoc({ path: to });
+    setDockSettingsOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -97,18 +134,18 @@ export default function App() {
   };
 
   const navItems = [
-    { key: 'home',    label: t.nav.home,    to: '/'        },
-    { key: 'now',     label: t.nav.now,     to: '/now'     },
-    { key: 'uses',    label: t.nav.uses,    to: '/uses'    },
-    { key: 'til',     label: t.nav.til,     to: '/til'     },
-    { key: 'contact', label: t.nav.contact, to: '/contact' },
+    { key: 'home',    label: t.nav.home,    to: '/',        icon: House },
+    { key: 'now',     label: t.nav.now,     to: '/now',     icon: Activity },
+    { key: 'uses',    label: t.nav.uses,    to: '/uses',    icon: Wrench },
+    { key: 'til',     label: t.nav.til,     to: '/til',     icon: Lightbulb },
+    { key: 'contact', label: t.nav.contact, to: '/contact', icon: Mail },
   ];
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased">
 
-      {/* ===== NAVBAR ===== */}
-      <header className="fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4">
+      {/* ===== NAVBAR (desktop only) ===== */}
+      <header className="hidden md:block fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4">
         <div className="max-w-2xl mx-auto">
           <div
             style={{ maxWidth: scrolled ? '512px' : '100%' }}
@@ -198,7 +235,65 @@ export default function App() {
       </header>
 
       {/* Spacer untuk konten agar tidak ketutup fixed navbar */}
-      <div className="h-16" />
+      <div className="hidden md:block h-16" />
+
+      {/* ===== MOBILE BOTTOM DOCK ===== */}
+      <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:hidden transition-[transform,opacity] duration-300 ease-out ${dockHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
+        <div className="mx-auto flex max-w-md items-center justify-between rounded-full border border-[#e0ddd6] dark:border-white/10 bg-white/85 dark:bg-[#1c1c1a]/85 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/40 px-3 py-2">
+          <nav className="flex items-center gap-0.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const active = page === item.key;
+              return (
+                <a
+                  key={item.key}
+                  href={item.to}
+                  onClick={(e) => { e.preventDefault(); navigate(item.to); }}
+                  aria-label={item.label}
+                  className={active
+                    ? 'flex h-9 w-9 items-center justify-center rounded-full bg-[#111110]/8 dark:bg-white/15 text-[#111110] dark:text-white transition-colors'
+                    : 'flex h-9 w-9 items-center justify-center rounded-full text-[#888683] dark:text-white/50 hover:text-[#111110] dark:hover:text-white transition-colors'}
+                >
+                  <Icon size={17} />
+                </a>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-1.5 relative" ref={dockRef}>
+            <button
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              aria-label="Toggle theme"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e0ddd6] dark:border-white/15 text-[#888683] dark:text-white/60 hover:text-[#111110] dark:hover:text-white transition-colors"
+            >
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            </button>
+            <button
+              onClick={() => setDockSettingsOpen(!dockSettingsOpen)}
+              aria-label="Settings"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#c4623a] text-white shadow-sm transition-colors hover:bg-[#a8522e]"
+            >
+              <SlidersHorizontal size={16} />
+            </button>
+
+            {dockSettingsOpen && (
+              <div className="absolute bottom-full right-0 mb-2 w-44 rounded-xl border border-[#e0ddd6] dark:border-white/10 bg-white/95 dark:bg-[#1c1c1a]/95 backdrop-blur-xl shadow-xl py-1.5 font-mono text-xs z-50">
+                <p className="px-3 py-1 text-[10px] uppercase tracking-widest text-[#6b6b66] dark:text-[#555451]">{t.settings.language}</p>
+                {['en', 'id'].map((code) => (
+                  <button
+                    key={code}
+                    onClick={() => { setLang(code); setDockSettingsOpen(false); }}
+                    className={`w-full flex items-center justify-between px-3 py-1.5 transition-colors ${lang === code ? 'text-[#c4623a]' : 'text-[#2a2a27] dark:text-[#999691] hover:bg-[#f5f4f1] dark:hover:bg-white/5'}`}
+                  >
+                    {code === 'en' ? 'English' : 'Indonesia'}
+                    {lang === code && <Check size={13} />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* ===== HOME PAGE ===== */}
       {page === 'home' && (
@@ -288,7 +383,7 @@ export default function App() {
             </h2>
             <div className="space-y-6">
               {t.experience.items.map((exp, idx) => (
-                <div key={idx} className="grid grid-cols-[7rem_1fr] gap-6 items-start">
+                <div key={idx} className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-6 items-start">
                   <span className="font-mono text-xs text-[#6b6b66] dark:text-[#555451] pt-0.5 leading-relaxed">
                     {exp.period}
                   </span>
@@ -320,7 +415,7 @@ export default function App() {
 
           <div className="divide-y divide-[#eeecea] dark:divide-[#2a2a27]">
             {t.now.sections.map((section, idx) => (
-              <section key={idx} className="py-8 grid grid-cols-[7rem_1fr] gap-6 items-start">
+              <section key={idx} className="py-8 grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-6 items-start">
                 <p className="font-mono text-xs text-[#6b6b66] dark:text-[#555451] pt-1">{section.label}</p>
                 <div>
                   <h2 className="font-medium text-[#111110] dark:text-[#e8e6e1] mb-2">{section.heading}</h2>
@@ -364,7 +459,7 @@ export default function App() {
             ))}
 
             {/* Listening */}
-            <section className="py-8 grid grid-cols-[7rem_1fr] gap-6 items-start">
+            <section className="py-8 grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-6 items-start">
               <p className="font-mono text-xs text-[#6b6b66] dark:text-[#555451] pt-1">{t.now.listening.label}</p>
               <div>
                 <h2 className="font-medium text-[#111110] dark:text-[#e8e6e1] mb-3">{t.now.listening.heading}</h2>
