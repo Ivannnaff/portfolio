@@ -110,7 +110,10 @@ export const translations = {
       formEmail: "Email Address",
       formMessage: "Message",
       sendButton: "Send Message",
-      successMessage: "Message transmitted successfully. I will be in touch shortly."
+      successMessage: "Message transmitted successfully. I will be in touch shortly.",
+      errorHuman: "Please verify that you are not a robot.",
+      errorSend: "Something went wrong. Please try again or email me directly.",
+      sending: "Sending..."
     },
     footer: {
       rights: "All rights reserved.",
@@ -399,7 +402,10 @@ export const translations = {
       formEmail: "Alamat Email",
       formMessage: "Pesan",
       sendButton: "Kirim Pesan",
-      successMessage: "Pesan berhasil dikirim. Saya akan segera menghubungi Anda."
+      successMessage: "Pesan berhasil dikirim. Saya akan segera menghubungi Anda.",
+      errorHuman: "Verifikasi dulu bahwa Anda bukan robot.",
+      errorSend: "Terjadi kesalahan. Silakan coba lagi atau email saya langsung.",
+      sending: "Mengirim..."
     },
     footer: {
       rights: "Hak cipta dilindungi undang-undang.",

@@ -9,6 +9,7 @@ import UsesPage from './pages/Uses';
 import TilPage from './pages/Til';
 import Footer from './components/Footer';
 import ResumePage from './pages/Resume';
+import Turnstile from './components/Turnstile';
 
 const getLoc = () => ({
   path: window.location.pathname || '/',
@@ -23,11 +24,14 @@ export default function App() {
   const [theme, setTheme] = useState('dark');
   const [tracks, setTracks] = useState([]);
   const [loc, setLoc] = useState(getLoc);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formState, setFormState] = useState('idle'); // idle | sending | success | error
+  const [formError, setFormError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [dockHidden, setDockHidden] = useState(false);
   const [dockSettingsOpen, setDockSettingsOpen] = useState(false);
   const dockRef = useRef(null);
+  const turnstileRef = useRef(null);
 
   const t = translations[lang];
 
@@ -127,10 +131,42 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 5000);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    if (!turnstileToken) {
+      setFormState('error');
+      setFormError(t.contact.errorHuman);
+      turnstileRef.current?.reset();
+      return;
+    }
+
+    setFormState('sending');
+    setFormError('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('name'),
+          email: fd.get('email'),
+          message: fd.get('message'),
+          token: turnstileToken,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setFormState('success');
+      form.reset();
+      turnstileRef.current?.reset();
+      setTimeout(() => setFormState('idle'), 6000);
+    } catch {
+      setFormState('error');
+      setFormError(t.contact.errorSend);
+      turnstileRef.current?.reset();
+    }
   };
 
   const navItems = [
@@ -531,7 +567,7 @@ export default function App() {
           </div>
 
           <div className="border border-[#d0cdc6] dark:border-[#2a2a27] rounded-lg p-6">
-            {formSubmitted ? (
+            {formState === 'success' ? (
               <div className="flex flex-col items-center justify-center text-center py-10">
                 <CheckCircle2 size={32} className="text-[#c4623a] mb-3" />
                 <p className="text-sm font-medium mb-1">{t.contact.sendButton}</p>
@@ -540,14 +576,14 @@ export default function App() {
             ) : (
               <form onSubmit={handleContactSubmit} className="space-y-5">
                 {[
-                  { label: t.contact.formName, type: 'text' },
-                  { label: t.contact.formEmail, type: 'email' },
+                  { label: t.contact.formName, type: 'text', name: 'name' },
+                  { label: t.contact.formEmail, type: 'email', name: 'email' },
                 ].map((field, idx) => (
                   <div key={idx}>
                     <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
                       {field.label}
                     </label>
-                    <input type={field.type} required
+                    <input type={field.type} name={field.name} required
                       className="w-full bg-transparent border border-[#d0cdc6] dark:border-[#2a2a27] rounded px-3 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors" />
                   </div>
                 ))}
@@ -555,12 +591,19 @@ export default function App() {
                   <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
                     {t.contact.formMessage}
                   </label>
-                  <textarea rows={4} required
+                  <textarea rows={4} name="message" required
                     className="w-full bg-transparent border border-[#d0cdc6] dark:border-[#2a2a27] rounded px-3 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors resize-none" />
                 </div>
-                <button type="submit"
-                  className="w-full bg-[#c4623a] hover:bg-[#a8522e] text-white text-sm font-medium py-2.5 px-4 rounded transition-colors">
-                  {t.contact.sendButton}
+
+                <Turnstile ref={turnstileRef} onTokenChange={setTurnstileToken} />
+
+                {formState === 'error' && formError && (
+                  <p className="text-sm text-[#c4623a]">{formError}</p>
+                )}
+
+                <button type="submit" disabled={formState === 'sending'}
+                  className="w-full bg-[#c4623a] hover:bg-[#a8522e] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 px-4 rounded transition-colors">
+                  {formState === 'sending' ? t.contact.sending : t.contact.sendButton}
                 </button>
               </form>
             )}
