@@ -11,10 +11,7 @@ export default function Footer({ t, tracks = [], navigate }) {
   ];
 
   const resources = [
-    { label: 'Resume',          href: '/resume'                                     },
-    { label: 'Task Manager AI', href: 'https://task-manager-ivan-cd9e.vercel.app', external: true },
-    { label: 'Nusantara Hub',   href: 'https://github.com/Ivannnaff/nusantara-hub', external: true },
-    { label: 'Source Code',     href: 'https://github.com/Ivannnaff/portfolio',     external: true },
+    { label: 'Resume', href: '/resume' },
   ];
 
   const connect = [
