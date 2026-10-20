@@ -1,0 +1,644 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Globe, 
+  Sparkles, 
+  Maximize2, 
+  Moon, 
+  Sun, 
+  Settings, 
+  ExternalLink, 
+  Code, 
+  Mail, 
+  CheckCircle2, 
+  Check,
+  User,
+  House,
+  Activity,
+  Link
+} from 'lucide-react';
+import { translations } from './translations';
+
+function SettingsMenu({ position, t, lang, setLang, animation, setAnimation, layoutWidth, setLayoutWidth }) {
+  const posClass = position === 'up'
+    ? 'bottom-full mb-2 origin-bottom-right'
+    : 'top-full mt-2 origin-top-right';
+
+  return (
+    <div className={`absolute right-0 ${posClass} w-60 bg-[#e8e2d5] dark:bg-[#1e1e1d] border border-[#d1cfc5] dark:border-[#333330] rounded-2xl shadow-xl py-2 z-50 text-xs font-sans`}>
+      {/* Language Section */}
+      <div className="px-4 py-1.5 font-mono text-[10px] uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5]">
+        {t.settings.language}
+      </div>
+      <button
+        onClick={() => setLang('en')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Globe size={13} /> English</span>
+        {lang === 'en' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+      <button
+        onClick={() => setLang('id')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Globe size={13} /> Indonesia</span>
+        {lang === 'id' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+
+      <div className="my-1.5 border-t border-[#d1cfc5] dark:border-[#333330]" />
+
+      {/* Animation Section */}
+      <div className="px-4 py-1.5 font-mono text-[10px] uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5]">
+        {t.settings.animation}
+      </div>
+      <button
+        onClick={() => setAnimation('system')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Sparkles size={13} /> {t.settings.animSystem}</span>
+        {animation === 'system' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+      <button
+        onClick={() => setAnimation('on')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Sparkles size={13} /> {t.settings.animOn}</span>
+        {animation === 'on' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+      <button
+        onClick={() => setAnimation('off')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Sparkles size={13} /> {t.settings.animOff}</span>
+        {animation === 'off' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+
+      <div className="my-1.5 border-t border-[#d1cfc5] dark:border-[#333330]" />
+
+      {/* Layout Width Section */}
+      <div className="px-4 py-1.5 font-mono text-[10px] uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5]">
+        {t.settings.layout}
+      </div>
+      <button
+        onClick={() => setLayoutWidth('default')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Maximize2 size={13} /> {t.settings.layoutDefault}</span>
+        {layoutWidth === 'default' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+      <button
+        onClick={() => setLayoutWidth('wide')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Maximize2 size={13} /> {t.settings.layoutWide}</span>
+        {layoutWidth === 'wide' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+      <button
+        onClick={() => setLayoutWidth('wider')}
+        className="w-full px-4 py-1.5 text-left flex items-center justify-between hover:bg-[#ddd4c2] dark:hover:bg-[#333330] transition-colors"
+      >
+        <span className="flex items-center gap-2"><Maximize2 size={13} /> {t.settings.layoutWider}</span>
+        {layoutWidth === 'wider' && <Check size={14} className="text-[#141413] dark:text-[#faf9f5]" />}
+      </button>
+    </div>
+  );
+}
+
+const getLoc = () => ({
+  path: window.location.pathname || '/',
+  hash: window.location.hash || ''
+});
+
+export default function App() {
+  const [lang, setLang] = useState('en');
+  const [theme, setTheme] = useState('dark');
+  const [animation, setAnimation] = useState('system');
+  const [layoutWidth, setLayoutWidth] = useState('default');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [loc, setLoc] = useState(getLoc);
+
+  const dropdownRef = useRef(null);
+  const dockRef = useRef(null);
+  const t = translations[lang];
+
+  const page = loc.path === '/now' ? 'now' : loc.path === '/contact' ? 'contact' : 'home';
+
+  useEffect(() => {
+    const onPop = () => setLoc(getLoc());
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const inHeader = dropdownRef.current && dropdownRef.current.contains(event.target);
+      const inDock = dockRef.current && dockRef.current.contains(event.target);
+      if (!inHeader && !inDock) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y <= 64) {
+          setNavHidden(false);
+        } else if (y > lastY + 20) {
+          setNavHidden(true);
+        } else if (y < lastY - 8) {
+          setNavHidden(false);
+        }
+        lastY = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  const navigate = (to) => {
+    window.history.pushState({}, '', to);
+    setLoc({ path: to, hash: '' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const animClass = animation === 'off' ? '' : 'transition-all duration-300';
+
+  const widthClass = 
+    layoutWidth === 'wider' ? 'max-w-4xl' : 
+    layoutWidth === 'wide' ? 'max-w-3xl' : 'max-w-2xl';
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+    setTimeout(() => setFormSubmitted(false), 5000);
+  };
+
+  const navItems = [
+    { key: 'home', label: t.nav.home, to: '/', icon: House },
+    { key: 'now', label: t.nav.now, to: '/now', icon: Activity },
+    { key: 'contact', label: t.nav.contact, to: '/contact', icon: Mail },
+  ];
+
+  const activeKey = page;
+
+  return (
+    <div className={`min-h-screen bg-[#f1ece1] dark:bg-[#121211] text-[#141413] dark:text-[#faf9f5] ${animClass} relative font-serif`}>
+      
+      {/* TOP NAVIGATION (desktop only) */}
+      <header className="hidden md:block sticky top-0 z-40 bg-[#f1ece1]/90 dark:bg-[#121211]/90 backdrop-blur-md border-b border-[#d1cfc5] dark:border-[#333330]">
+        <div className={`mx-auto px-6 h-16 flex items-center justify-between ${widthClass} ${animClass}`}>
+          
+          {/* Desktop Nav Links */}
+          <nav className="flex items-center gap-8 font-serif text-sm">
+            {navItems.map((item) => {
+              const active = activeKey === item.key;
+              return (
+                <a
+                  key={item.key}
+                  href={item.to}
+                  onClick={(e) => { e.preventDefault(); navigate(item.to); }}
+                  className={`relative pb-1 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:rounded-full after:bg-[#d97757] after:transition-transform after:duration-300 ${active ? 'text-[#d97757] font-medium after:scale-x-100' : 'text-[#5e5d59] dark:text-[#b0aea5] hover:text-[#d97757] after:scale-x-0 hover:after:scale-x-100'}`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Right Controls */}
+          <div className="flex items-center gap-2 relative">
+            <button 
+              onClick={toggleTheme}
+              aria-label="Toggle Theme"
+              className="p-2 rounded-lg border border-[#d1cfc5] dark:border-[#333330] hover:border-[#141413] dark:hover:border-[#faf9f5] transition-colors bg-[#e8e2d5] dark:bg-[#1a1a19]"
+            >
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            </button>
+
+            <div className="relative" ref={dropdownRef}>
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-label="Open Settings"
+                className="p-2 rounded-lg border border-[#d1cfc5] dark:border-[#333330] hover:border-[#141413] dark:hover:border-[#faf9f5] transition-colors bg-[#e8e2d5] dark:bg-[#1a1a19] flex items-center gap-2"
+              >
+                <Settings size={16} />
+              </button>
+
+              {isDropdownOpen && (
+                <SettingsMenu
+                  position="down"
+                  t={t}
+                  lang={lang}
+                  setLang={setLang}
+                  animation={animation}
+                  setAnimation={setAnimation}
+                  layoutWidth={layoutWidth}
+                  setLayoutWidth={setLayoutWidth}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* MOBILE BOTTOM DOCK NAVIGATION */}
+      <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:hidden transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${navHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
+        <div className="mx-auto flex max-w-md items-center justify-between rounded-[2rem] border border-[#d1cfc5] dark:border-[#333330] bg-[#f1ece1]/85 dark:bg-[#121211]/85 px-3 py-2 shadow-lg backdrop-blur-xl">
+          {/* Nav Icons */}
+          <div className="flex items-center gap-0.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const active = activeKey === item.key;
+              return (
+                <a
+                  key={item.key}
+                  href={item.to}
+                  onClick={(e) => { e.preventDefault(); navigate(item.to); }}
+                  aria-label={item.label}
+                  className={active
+                    ? 'flex h-10 w-10 items-center justify-center rounded-full bg-[#e8e2d5] dark:bg-[#1a1a19] text-[#d97757] transition-colors'
+                    : 'flex h-10 w-10 items-center justify-center rounded-full text-[#5e5d59] dark:text-[#b0aea5] hover:bg-[#e8e2d5] dark:hover:bg-[#1a1a19] hover:text-[#d97757] transition-colors'}
+                >
+                  <Icon size={18} />
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Controls */}
+          <div className="relative flex items-center gap-1" ref={dockRef}>
+            {/* Language toggle EN/ID */}
+            <div className="flex items-center rounded-full border border-[#d1cfc5] dark:border-[#333330] p-0.5" role="group" aria-label="Language">
+              <button
+                onClick={() => setLang('en')}
+                aria-label="English"
+                className={`flex h-6 min-w-8 items-center justify-center rounded-full px-1.5 text-[10px] font-medium transition-colors ${lang === 'en' ? 'bg-[#e8e2d5] dark:bg-[#333330] text-[#141413] dark:text-[#faf9f5]' : 'text-[#5e5d59] dark:text-[#b0aea5]'}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLang('id')}
+                aria-label="Bahasa Indonesia"
+                className={`flex h-6 min-w-8 items-center justify-center rounded-full px-1.5 text-[10px] font-medium transition-colors ${lang === 'id' ? 'bg-[#e8e2d5] dark:bg-[#333330] text-[#141413] dark:text-[#faf9f5]' : 'text-[#5e5d59] dark:text-[#b0aea5]'}`}
+              >
+                ID
+              </button>
+            </div>
+
+            <button 
+              onClick={toggleTheme}
+              aria-label="Toggle Theme"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#141413] dark:text-[#faf9f5] hover:bg-[#e8e2d5] dark:hover:bg-[#1a1a19] transition-colors"
+            >
+              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-label="Open Settings"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#141413] dark:text-[#faf9f5] hover:bg-[#e8e2d5] dark:hover:bg-[#1a1a19] transition-colors"
+            >
+              <Settings size={18} />
+            </button>
+
+            {isDropdownOpen && (
+              <SettingsMenu
+                position="up"
+                t={t}
+                lang={lang}
+                setLang={setLang}
+                animation={animation}
+                setAnimation={setAnimation}
+                layoutWidth={layoutWidth}
+                setLayoutWidth={setLayoutWidth}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== HOME PAGE ===== */}
+      {page === 'home' && (
+        <>
+          <main className={`mx-auto px-6 pt-10 pb-6 ${widthClass} ${animClass}`}>
+            {/* HERO SECTION */}
+            <section className="py-4 md:py-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+                
+                {/* Profile Photo */}
+                <div className="lg:col-span-3 flex justify-center lg:justify-start order-1 lg:order-1 mb-6 lg:mb-0">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-28 lg:h-28 rounded-full overflow-hidden border border-[#d1cfc5] dark:border-[#333330] group shadow-sm">
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#e8e2d5] dark:bg-[#262624]">
+                      <User size={32} className="text-[#5e5d59] dark:text-[#b0aea5] opacity-60" />
+                    </div>
+                    <img 
+                      src="/photo-1.jpg" 
+                      alt="Ivan Akbar Alfahrezi"
+                      className="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                    />
+                    <img 
+                      src="/photo-2.jpg" 
+                      alt="Ivan Akbar Alfahrezi"
+                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Headline & Tagline */}
+                <div className="lg:col-span-9 order-2 lg:order-2 text-center lg:text-left">
+                  <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight mb-2 leading-snug">
+                    {t.hero.title}
+                  </h1>
+
+                  <p className="font-serif text-base sm:text-lg text-[#3d3d3a] dark:text-[#e0ded6] leading-relaxed max-w-xl mx-auto lg:mx-0 mb-3">
+                    {t.hero.tagline}
+                  </p>
+
+                  {/* Availability */}
+                  <p className="font-mono text-xs text-[#5e5d59] dark:text-[#b0aea5] italic mb-5">
+                    <span className="text-[#d97757] not-italic mr-1.5">●</span>
+                    {t.hero.availability}
+                  </p>
+
+                  {/* Social links */}
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 font-sans text-xs">
+                    <a
+                      href="https://github.com/IvanAkbarAlfahrezi/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#e8e2d5] dark:bg-[#1a1a19] border border-[#d1cfc5] dark:border-[#333330] text-[#141413] dark:text-[#faf9f5] hover:border-[#141413] dark:hover:border-[#faf9f5] transition-colors font-medium"
+                    >
+                      <Code size={14} /> GitHub
+                    </a>
+                    <a
+                      href="https://linkedin.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#e8e2d5] dark:bg-[#1a1a19] border border-[#d1cfc5] dark:border-[#333330] text-[#141413] dark:text-[#faf9f5] hover:border-[#141413] dark:hover:border-[#faf9f5] transition-colors font-medium"
+                    >
+                      <Link size={14} /> LinkedIn
+                    </a>
+                    <a
+                      href="mailto:ivanalfa647@gmail.com"
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#e8e2d5] dark:bg-[#1a1a19] border border-[#d1cfc5] dark:border-[#333330] text-[#141413] dark:text-[#faf9f5] hover:border-[#141413] dark:hover:border-[#faf9f5] transition-colors font-medium"
+                    >
+                      <Mail size={14} /> Email
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+          </main>
+
+          {/* PROJECTS SECTION */}
+          <section id="projects" className="bg-[#e3dacc] dark:bg-[#000000] text-[#141413] dark:text-[#faf9f5] pt-12 pb-14 scroll-mt-24 transition-colors">
+            <div className={`mx-auto px-6 ${widthClass}`}>
+              <h2 className="font-serif text-2xl md:text-3xl font-normal tracking-tight mb-8">
+                {t.projects.title}
+              </h2>
+
+              <div className="grid grid-cols-1 gap-4">
+                {t.projects.items.map((project, idx) => (
+                  <div 
+                    key={idx}
+                    className="bg-[#f5f1e8] dark:bg-white/[0.03] border border-[#d1cfc5] dark:border-white/10 rounded-2xl p-7 flex flex-col justify-between hover:border-[#141413] dark:hover:border-white/30 transition-colors group shadow-sm"
+                  >
+                    <div>
+                      <span className="inline-block font-mono text-[10px] text-[#d97757] mb-3 uppercase tracking-[0.15em]">
+                        {project.category}
+                      </span>
+                      <h3 className="font-sans text-lg font-semibold mb-3 text-[#141413] dark:text-[#faf9f5] group-hover:text-[#d97757] transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="font-serif text-[#5e5d59] dark:text-[#b0aea5] text-sm leading-relaxed mb-6">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.tags.map((tag, tIdx) => (
+                          <span key={tIdx} className="font-mono text-[10px] bg-[#e8e2d5] dark:bg-white/10 text-[#5e5d59] dark:text-[#b0aea5] px-2 py-1 rounded-md">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center gap-5 pt-4 border-t border-[#d1cfc5] dark:border-white/10 font-sans text-xs font-medium">
+                        <a href="#" className="flex items-center gap-1.5 hover:text-[#d97757] transition-colors">
+                          {t.projects.viewLive} <ExternalLink size={13} />
+                        </a>
+                        <a href="#" className="flex items-center gap-1.5 text-[#5e5d59] dark:text-[#b0aea5] hover:text-[#141413] dark:hover:text-[#faf9f5] transition-colors">
+                          {t.projects.source} <Code size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* EXPERIENCE SECTION */}
+          <main className={`mx-auto px-6 pt-12 pb-28 md:pb-16 ${widthClass}`}>
+            <section id="experience" className="py-12 scroll-mt-24">
+              <h2 className="font-serif text-2xl md:text-3xl font-normal tracking-tight mb-3">
+                {t.experience.title}
+              </h2>
+              <p className="text-[#5e5d59] dark:text-[#b0aea5] text-base font-serif mb-14">
+                {t.experience.subtitle}
+              </p>
+
+              <div className="space-y-6">
+                {t.experience.items.map((exp, idx) => (
+                  <div 
+                    key={idx}
+                    className="p-7 rounded-2xl bg-[#e8e2d5] dark:bg-[#1a1a19] border border-[#d1cfc5] dark:border-[#333330] grid grid-cols-1 md:grid-cols-4 gap-5 items-start"
+                  >
+                    <div className="font-mono text-[10px] uppercase text-[#5e5d59] dark:text-[#b0aea5] tracking-wider md:pt-1">
+                      {exp.period}
+                    </div>
+                    <div className="md:col-span-3">
+                      <h3 className="font-sans text-base font-semibold mb-1">
+                        {exp.role} <span className="text-[#5e5d59] dark:text-[#b0aea5] font-normal">at {exp.company}</span>
+                      </h3>
+                      <p className="font-serif text-[#3d3d3a] dark:text-[#e0ded6] text-sm leading-relaxed mt-3">
+                        {exp.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </main>
+        </>
+      )}
+
+      {/* ===== NOW PAGE ===== */}
+      {page === 'now' && (
+        <main className={`mx-auto px-6 py-16 pb-28 md:pb-16 ${widthClass} ${animClass}`}>
+          <h1 className="font-serif text-3xl md:text-4xl font-normal tracking-tight mb-4">
+            {t.now.title}
+          </h1>
+          <p className="font-serif text-base md:text-lg text-[#5e5d59] dark:text-[#b0aea5] leading-relaxed mb-10">
+            {t.now.subtitle}
+          </p>
+          <ul className="space-y-4">
+            {t.now.items.map((item, idx) => (
+              <li key={idx} className="flex gap-3 font-serif text-base text-[#3d3d3a] dark:text-[#e0ded6] leading-relaxed">
+                <span className="text-[#d97757]">✦</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </main>
+      )}
+
+      {/* ===== CONTACT PAGE ===== */}
+      {page === 'contact' && (
+        <main className={`mx-auto px-6 py-16 pb-28 md:pb-16 ${widthClass} ${animClass}`}>
+          <div className="max-w-xl mx-auto text-center">
+            <h1 className="font-serif text-3xl md:text-4xl font-normal tracking-tight mb-5">
+              {t.contact.title}
+            </h1>
+            <p className="font-serif text-base text-[#3d3d3a] dark:text-[#e0ded6] mb-10 leading-relaxed">
+              {t.contact.subtitle}
+            </p>
+
+            <div className="bg-[#e8e2d5] dark:bg-[#1a1a19] border border-[#d1cfc5] dark:border-[#333330] rounded-2xl p-8 text-left">
+              {formSubmitted ? (
+                <div className="flex flex-col items-center justify-center text-center py-12">
+                  <CheckCircle2 size={40} className="text-[#d97757] mb-4" />
+                  <h3 className="font-sans font-semibold text-base mb-2">Message Sent</h3>
+                  <p className="font-serif text-[#5e5d59] dark:text-[#b0aea5] text-sm">{t.contact.successMessage}</p>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-4 font-sans">
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5] mb-2">{t.contact.formName}</label>
+                    <input 
+                      type="text" 
+                      required 
+                      className="w-full bg-[#f1ece1] dark:bg-[#121211] border border-[#d1cfc5] dark:border-[#333330] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#141413] dark:focus:border-[#faf9f5] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5] mb-2">{t.contact.formEmail}</label>
+                    <input 
+                      type="email" 
+                      required 
+                      className="w-full bg-[#f1ece1] dark:bg-[#121211] border border-[#d1cfc5] dark:border-[#333330] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#141413] dark:focus:border-[#faf9f5] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#5e5d59] dark:text-[#b0aea5] mb-2">{t.contact.formMessage}</label>
+                    <textarea 
+                      rows={4} 
+                      required 
+                      className="w-full bg-[#f1ece1] dark:bg-[#121211] border border-[#d1cfc5] dark:border-[#333330] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#141413] dark:focus:border-[#faf9f5] transition-colors resize-none"
+                    ></textarea>
+                  </div>
+                  <button 
+                    type="submit" 
+                    className="w-full bg-[#141413] dark:bg-[#faf9f5] text-[#faf9f5] dark:text-[#121211] font-medium text-sm py-3 px-6 rounded-lg hover:opacity-95 transition-opacity"
+                  >
+                    {t.contact.sendButton}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </main>
+      )}
+
+      {/* FOOTER */}
+      <footer className="bg-[#000000] dark:bg-[#000000] text-[#faf9f5] pt-16 pb-10 border-t border-white/10">
+        <div className={`mx-auto px-6 ${widthClass}`}>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand */}
+            <div className="md:col-span-2">
+              <div className="font-serif text-2xl tracking-tight mb-3">
+                Ivannaff
+              </div>
+              <p className="font-serif text-sm text-[#b0aea5] leading-relaxed max-w-xs">
+                {t.footer.tagline}
+              </p>
+            </div>
+
+            {/* Menu */}
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-wider text-[#b0aea5]/60 mb-4">
+                {t.footer.menu}
+              </div>
+              <ul className="space-y-2 font-serif text-sm">
+                {navItems.map((item) => (
+                  <li key={item.key}>
+                    <a
+                      href={item.to}
+                      onClick={(e) => { e.preventDefault(); navigate(item.to); }}
+                      className="text-[#b0aea5] hover:text-[#d97757] transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-wider text-[#b0aea5]/60 mb-4">
+                {t.footer.connect}
+              </div>
+              <ul className="space-y-2 font-serif text-sm">
+                <li>
+                  <a href="mailto:ivanalfa647@gmail.com" className="text-[#b0aea5] hover:text-[#d97757] transition-colors">
+                    Email
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/IvanAkbarAlfahrezi/" target="_blank" rel="noreferrer" className="text-[#b0aea5] hover:text-[#d97757] transition-colors">
+                    GitHub
+                  </a>
+                </li>
+                <li>
+                  <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-[#b0aea5] hover:text-[#d97757] transition-colors">
+                    LinkedIn
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="font-serif text-xs text-[#b0aea5]">
+              © {new Date().getFullYear()} Ivan Akbar Alfahrezi — {t.footer.rights}
+            </p>
+            <p className="font-mono text-[10px] text-[#b0aea5]/60 uppercase tracking-wider">
+              {t.footer.builtWith}
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
