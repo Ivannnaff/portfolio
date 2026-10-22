@@ -10,6 +10,7 @@ import TilPage from './pages/Til';
 import Footer from './components/Footer';
 import ResumePage from './pages/Resume';
 import Turnstile from './components/Turnstile';
+import CodeCard from './components/CodeCard';
 
 const getLoc = () => ({
   path: window.location.pathname || '/',
@@ -337,30 +338,39 @@ export default function App() {
 
           {/* HERO */}
           <section className="pt-16 pb-12">
-            <h1 className="text-2xl font-medium tracking-tight mb-4">
-              <span className="text-[#c4623a]">Ivan</span> Akbar Alfahrezi
-            </h1>
-            <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed max-w-lg">
-              {t.hero.tagline}
-            </p>
-            <p className="mt-4 text-sm text-[#888683] dark:text-[#666461]">
-              <span className="text-[#c4623a] mr-1.5">●</span>
-              {t.hero.availability}
-            </p>
+            <div className="grid lg:grid-cols-2 gap-10 items-center">
+              <div>
+                <p className="font-mono text-xs text-[#c4623a] mb-3">hello_world.js</p>
+                <h1 className="text-2xl font-medium tracking-tight mb-4">
+                  <span className="text-[#c4623a]">Ivan</span> Akbar Alfahrezi
+                </h1>
+                <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed max-w-lg">
+                  {t.hero.tagline}
+                </p>
+                <p className="mt-4 text-sm text-[#888683] dark:text-[#666461]">
+                  <span className="text-[#c4623a] mr-1.5">●</span>
+                  {t.hero.availability}
+                </p>
 
-            <div className="mt-6 flex flex-wrap gap-4 text-sm">
-              <a href="https://github.com/IvanAkbarAlfahrezi/" target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#111110] dark:hover:text-[#e8e6e1] transition-colors">
-                GitHub <ArrowUpRight size={13} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer"
-                className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#111110] dark:hover:text-[#e8e6e1] transition-colors">
-                LinkedIn <ArrowUpRight size={13} />
-              </a>
-              <a href="mailto:ivanalfa647@gmail.com"
-                className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#111110] dark:hover:text-[#e8e6e1] transition-colors">
-                Email <ArrowUpRight size={13} />
-              </a>
+                <div className="mt-6 flex flex-wrap gap-4 text-sm">
+                  <a href="https://github.com/IvanAkbarAlfahrezi/" target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#c4623a] dark:hover:text-[#e8e6e1] transition-colors">
+                    GitHub <ArrowUpRight size={13} />
+                  </a>
+                  <a href="https://linkedin.com" target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#c4623a] dark:hover:text-[#e8e6e1] transition-colors">
+                    LinkedIn <ArrowUpRight size={13} />
+                  </a>
+                  <a href="mailto:ivanalfa647@gmail.com"
+                    className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#c4623a] dark:hover:text-[#e8e6e1] transition-colors">
+                    Email <ArrowUpRight size={13} />
+                  </a>
+                </div>
+              </div>
+
+              <div className="order-first lg:order-last">
+                <CodeCard />
+              </div>
             </div>
           </section>
 
@@ -374,7 +384,7 @@ export default function App() {
             <div className="space-y-4">
               {t.projects.items.map((project, idx) => (
                 <div key={idx}
-                  className="group rounded-xl border border-[#eeecea] dark:border-[#2a2a27] p-6 hover:border-[#c4623a]/40 dark:hover:border-[#c4623a]/40 transition-colors"
+                  className="group rounded-xl border border-[#eeecea] dark:border-[#2a2a27] p-6 hover:border-[#c4623a]/40 dark:hover:border-[#c4623a]/40 hover:-translate-y-0.5 hover:shadow-md transition-all"
                 >
                   {/* Title + category */}
                   <div className="flex items-start justify-between gap-4 mb-3">
