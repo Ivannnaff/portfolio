@@ -182,7 +182,7 @@ export default function App() {
     <div className="min-h-screen bg-white dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased">
 
       {/* ===== NAVBAR (desktop only) ===== */}
-      <header className="hidden md:block fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4">
+      <header className="hidden lg:block fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4">
         <div className="max-w-2xl mx-auto">
           <div
             style={{ maxWidth: scrolled ? '512px' : '100%' }}
@@ -272,10 +272,10 @@ export default function App() {
       </header>
 
       {/* Spacer untuk konten agar tidak ketutup fixed navbar */}
-      <div className="hidden md:block h-16" />
+      <div className="hidden lg:block h-16" />
 
       {/* ===== MOBILE BOTTOM DOCK ===== */}
-      <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:hidden transition-[transform,opacity] duration-300 ease-out ${dockHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
+      <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 lg:hidden transition-[transform,opacity] duration-300 ease-out ${dockHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
         <div className="mx-auto flex max-w-md items-center justify-between rounded-full border border-[#e0ddd6] dark:border-white/10 bg-white/90 dark:bg-[#1c1c1a]/90 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/40 px-3 py-2">
           <nav className="flex items-center gap-0.5">
             {navItems.map((item) => {
@@ -367,7 +367,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div>
+              <div className="hidden lg:block">
                 <CodeCard />
               </div>
             </div>

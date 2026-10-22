@@ -23,7 +23,7 @@ export default function Footer({ t, tracks = [], navigate }) {
 
   return (
     <footer className="mt-20 border-t border-[#eeecea] dark:border-[#2a2a27]">
-      <div className="max-w-2xl mx-auto px-6 pt-12 pb-28 md:pb-12">
+      <div className="max-w-2xl mx-auto px-6 pt-12 pb-28 lg:pb-12">
 
         {/* Top row: handle + copyright | last played */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-10">
