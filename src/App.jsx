@@ -340,7 +340,6 @@ export default function App() {
           <section className="pt-16 pb-12">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               <div>
-                <p className="font-mono text-xs text-[#c4623a] mb-3">hello_world.js</p>
                 <h1 className="text-2xl font-medium tracking-tight mb-4">
                   <span className="text-[#c4623a]">Ivan</span> Akbar Alfahrezi
                 </h1>
@@ -368,7 +367,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="order-first lg:order-last">
+              <div>
                 <CodeCard />
               </div>
             </div>
