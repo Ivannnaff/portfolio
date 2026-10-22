@@ -367,7 +367,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="hidden lg:block">
+              <div className="w-full min-w-0">
                 <CodeCard />
               </div>
             </div>

@@ -16,7 +16,7 @@ export default function CodeCard() {
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
     setStyle({
-      transform: `perspective(900px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg)`,
+      transform: `perspective(900px) rotateX(${(-py * 4).toFixed(2)}deg) rotateY(${(px * 4).toFixed(2)}deg)`,
     });
   };
 
@@ -29,15 +29,15 @@ export default function CodeCard() {
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{ ...style, transition: 'transform 180ms ease-out' }}
-      className="rounded-xl border border-[#d0cdc6] dark:border-[#2a2a27] bg-[#fafaf8] dark:bg-[#161615] overflow-hidden shadow-sm"
+      className="rounded-xl border border-[#d0cdc6] dark:border-[#2a2a27] bg-[#fafaf8] dark:bg-[#161615] overflow-hidden shadow-sm max-w-full my-4 lg:my-0"
     >
-      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-[#eeecea] dark:border-[#2a2a27]">
+      <div className="flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 border-b border-[#eeecea] dark:border-[#2a2a27]">
         <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-        <span className="ml-2 font-mono text-[11px] text-[#888683] dark:text-[#666461]">about.js</span>
+        <span className="ml-2 font-mono text-[10px] sm:text-[11px] text-[#888683] dark:text-[#666461]">about.js</span>
       </div>
-      <pre className="font-mono text-[11px] sm:text-xs leading-[1.8] p-4 sm:p-5 overflow-x-auto select-none">
+      <pre className="font-mono text-[10px] sm:text-xs leading-[1.6] sm:leading-[1.8] p-3 sm:p-5 overflow-x-auto select-none">
 <span className={k}>const</span> <span className={key}>developer</span> <span className={punc}>=&#123;</span>
   <span className={key}>name</span><span className={punc}>:</span> <span className={str}>"Ivan Akbar Alfahrezi"</span><span className={punc}>,</span>
   <span className={key}>role</span><span className={punc}>:</span> <span className={str}>"Full-Stack Web Developer"</span><span className={punc}>,</span>
