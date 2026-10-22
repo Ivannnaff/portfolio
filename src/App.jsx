@@ -29,6 +29,7 @@ export default function App() {
   const [formError, setFormError] = useState('');
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const [dockHidden, setDockHidden] = useState(false);
   const [dockSettingsOpen, setDockSettingsOpen] = useState(false);
   const dockRef = useRef(null);
   const turnstileRef = useRef(null);
@@ -65,14 +66,24 @@ export default function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
-  // Scroll & Navbar
+  // Scroll & Dock visibility
   useEffect(() => {
+    let lastY = window.scrollY;
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 8);
+        const y = window.scrollY;
+        setScrolled(y > 8);
+        if (y <= 80) {
+          setDockHidden(false);
+        } else if (y > lastY + 40) {
+          setDockHidden(true);
+        } else if (y < lastY - 40) {
+          setDockHidden(false);
+        }
+        lastY = y;
         ticking = false;
       });
     };
@@ -264,7 +275,7 @@ export default function App() {
       <div className="hidden md:block h-16" />
 
       {/* ===== MOBILE BOTTOM DOCK ===== */}
-      <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:hidden">
+      <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:hidden transition-[transform,opacity] duration-300 ease-out ${dockHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
         <div className="mx-auto flex max-w-md items-center justify-between rounded-full border border-[#e0ddd6] dark:border-white/10 bg-white/90 dark:bg-[#1c1c1a]/90 backdrop-blur-xl shadow-xl shadow-black/5 dark:shadow-black/40 px-3 py-2">
           <nav className="flex items-center gap-0.5">
             {navItems.map((item) => {
