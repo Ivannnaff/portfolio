@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
-const SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITEKEY || '1x00000000000000000000AA';
+const SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITEKEY || '0x4AAAAAAFjl6zG3XUi4gn9t';
 
 let scriptPromise = null;
 
