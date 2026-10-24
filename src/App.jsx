@@ -43,12 +43,18 @@ export default function App() {
     loc.path === '/resume'  ? 'resume'  :
     loc.path === '/contact' ? 'contact' : 'home';
 
-  // Popstate (browser back/forward)
+  // Dynamic Document Title
   useEffect(() => {
-    const onPop = () => setLoc(getLoc());
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
-  }, []);
+    const titles = {
+      home: "Ivan Akbar Alfahrezi — Full-Stack Developer",
+      now: "Now — Ivan Akbar Alfahrezi",
+      uses: "Uses — Ivan Akbar Alfahrezi",
+      til: "TIL — Ivan Akbar Alfahrezi",
+      contact: "Contact — Ivan Akbar Alfahrezi",
+      resume: "Resume — Ivan Akbar Alfahrezi",
+    };
+    document.title = titles[page] || "Ivan Akbar Alfahrezi";
+  }, [page]);
 
   // Outside click for dock settings
   useEffect(() => {
