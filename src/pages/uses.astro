@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import App from '../App.jsx';
 ---
 
 <Layout>
-  <h1>Uses Page</h1>
+  <App client:only="react" />
 </Layout>
