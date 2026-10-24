@@ -179,63 +179,49 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased">
+    <div className="min-h-screen bg-[#fefaf3] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased">
 
-      {/* ===== NAVBAR (desktop only) ===== */}
+      {/* ===== HEADER (Desktop & Mobile) like up2dul.dev ===== */}
       <header className="hidden lg:block fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4">
         <div className="max-w-2xl mx-auto">
           <div
             style={{ maxWidth: scrolled ? '512px' : '100%' }}
             className={`pointer-events-auto w-full flex items-center justify-between mx-auto
-              transition-[max-width,padding,border-radius,background-color,box-shadow,border-color] duration-300 ease-in-out px-5 py-2.5
+              transition-[max-width,padding,border-radius,background-color,box-shadow,border-color] duration-300 ease-in-out px-4 sm:px-5 py-2.5
               ${scrolled
                 ? 'rounded-2xl backdrop-blur-xl shadow-xl border bg-white/90 border-[#e0ddd6] shadow-black/5 dark:bg-[#1c1c1a]/85 dark:border-white/10 dark:shadow-black/25'
-                : 'rounded-none bg-transparent border-transparent shadow-none'
+                : 'rounded-2xl sm:rounded-none bg-white/90 sm:bg-transparent border border-[#e0ddd6] sm:border-transparent shadow-lg sm:shadow-none backdrop-blur-xl sm:backdrop-blur-none'
               }`}
           >
-            {/* Wordmark */}
-            <a
-              href="/"
-              onClick={(e) => { e.preventDefault(); navigate('/'); }}
-              className={`font-mono text-sm transition-colors
-                ${scrolled
-                  ? 'text-[#111110] dark:text-white/80 hover:text-[#c4623a] dark:hover:text-white'
-                  : 'text-[#111110] dark:text-white/80 hover:text-[#c4623a] dark:hover:text-white'
-                }`}
-            >
-              ivannnaff
-            </a>
+            {/* Nav Links */}
+            <nav key={lang} className="flex items-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-0.5">
+              {navItems.map((item) => {
+                const active = page === item.key;
+                return (
+                  <a
+                    key={item.key}
+                    href={item.to}
+                    onClick={(e) => { e.preventDefault(); navigate(item.to); }}
+                    className={`relative text-sm py-0.5 transition-colors group shrink-0
+                      ${active
+                        ? 'text-[#111110] dark:text-white font-medium'
+                        : 'text-[#888683] dark:text-white/50 hover:text-[#111110] dark:hover:text-white'
+                      }`}
+                  >
+                    {item.label}
+                    <span
+                      className={`absolute bottom-0 left-0 h-[1px] bg-[#c4623a] rounded-full transition-[width] duration-300 ease-out
+                        ${active ? 'w-full' : 'w-0 group-hover:w-full'}`}
+                    />
+                  </a>
+                );
+              })}
+            </nav>
 
-            {/* Nav Links + Controls */}
-            <div className="flex items-center gap-4">
-
-              {/* Nav Links */}
-              <nav key={lang} className="flex items-center gap-5">
-                {navItems.map((item) => {
-                  const active = page === item.key;
-                  return (
-                    <a
-                      key={item.key}
-                      href={item.to}
-                      onClick={(e) => { e.preventDefault(); navigate(item.to); }}
-                      className={`relative text-sm py-0.5 transition-colors group
-                        ${active
-                          ? 'text-[#111110] dark:text-white font-medium'
-                          : 'text-[#888683] dark:text-white/50 hover:text-[#111110] dark:hover:text-white'
-                        }`}
-                    >
-                      {item.label}
-                      <span
-                        className={`absolute bottom-0 left-0 h-[1px] bg-[#c4623a] rounded-full transition-[width] duration-300 ease-out
-                          ${active ? 'w-full' : 'w-0 group-hover:w-full'}`}
-                      />
-                    </a>
-                  );
-                })}
-              </nav>
-
-              {/* Lang Toggle — pill capsule */}
-              <div className="flex items-center rounded-full border border-[#d1cfc5] dark:border-white/15 overflow-hidden font-mono text-xs">
+            {/* Controls (Theme & Lang) */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Lang Toggle */}
+              <div className="hidden sm:flex items-center rounded-full border border-[#d1cfc5] dark:border-white/15 overflow-hidden font-mono text-xs">
                 <button
                   onClick={() => setLang('en')}
                   className={`px-2.5 py-1 transition-colors
@@ -258,21 +244,30 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Theme Toggle */}
-              <button
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                aria-label="Toggle theme"
-                className="text-[#888683] dark:text-white/50 hover:text-[#111110] dark:hover:text-white transition-colors"
-              >
-                {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
-              </button>
+              {/* Theme & Settings Capsule matching up2dul style */}
+              <div className="flex items-center rounded-xl border border-[#d1cfc5] dark:border-white/15 bg-white/50 dark:bg-white/5 p-1 gap-1">
+                <button
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                  aria-label="Toggle theme"
+                  className="p-1.5 rounded-lg text-[#888683] dark:text-white/70 hover:text-[#111110] dark:hover:text-white transition-colors"
+                >
+                  {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+                </button>
+                <button
+                  onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
+                  aria-label="Toggle language"
+                  className="sm:hidden px-2 py-0.5 font-mono text-xs font-medium rounded-lg text-[#888683] dark:text-white/70 hover:text-[#111110] dark:hover:text-white transition-colors"
+                >
+                  {lang.toUpperCase()}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Spacer untuk konten agar tidak ketutup fixed navbar */}
-      <div className="hidden lg:block h-16" />
+      <div className="h-16" />
 
       {/* ===== MOBILE BOTTOM DOCK ===== */}
       <div className={`fixed inset-x-0 bottom-0 z-50 px-4 pb-4 lg:hidden transition-[transform,opacity] duration-300 ease-out ${dockHidden ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
@@ -352,7 +347,7 @@ export default function App() {
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-4 text-sm">
-                  <a href="https://github.com/IvanAkbarAlfahrezi/" target="_blank" rel="noreferrer"
+                  <a href="https://github.com/Ivannnaff" target="_blank" rel="noreferrer"
                     className="inline-flex items-center gap-1 text-[#2a2a27] dark:text-[#999691] hover:text-[#c4623a] dark:hover:text-[#e8e6e1] transition-colors">
                     GitHub <ArrowUpRight size={13} />
                   </a>
@@ -548,34 +543,33 @@ export default function App() {
       {/* ===== RESUME PAGE ===== */}
       {page === 'resume' && <ResumePage t={t} navigate={navigate} />}
 
-      {/* ===== CONTACT PAGE ===== */}
+      {/* ===== CONTACT PAGE (up2dul style + form) ===== */}
       {page === 'contact' && (
         <main className="max-w-2xl mx-auto px-6 py-16">
-          <div className="mb-12">
+          <div className="mb-10">
             <h1 className="text-2xl font-medium tracking-tight mb-3">{t.contact.title}</h1>
             <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed">{t.contact.subtitle}</p>
           </div>
 
-          <div className="mb-10 space-y-0">
+          <div className="space-y-4 mb-10">
             {[
-              { label: t.contact.emailLabel,  href: 'mailto:ivanalfa647@gmail.com', display: 'ivanalfa647@gmail.com' },
-              { label: t.contact.githubLabel,  href: 'https://github.com/IvanAkbarAlfahrezi/', display: 'github.com/IvanAkbarAlfahrezi', external: true },
-              { label: t.contact.linkedinLabel, href: 'https://linkedin.com', display: 'LinkedIn', external: true },
+              { label: "Email", href: 'mailto:ivanalfa647@gmail.com', display: 'ivanalfa647@gmail.com' },
+              { label: "GitHub", href: 'https://github.com/Ivannnaff', display: 'github.com/Ivannnaff', external: true },
+              { label: "LinkedIn", href: 'https://linkedin.com/in/IvanAkbarAlfahrezi', display: 'linkedin.com/in/IvanAkbarAlfahrezi', external: true },
+              { label: "Instagram", href: 'https://instagram.com/ivannnaff', display: 'instagram.com/ivannnaff', external: true },
             ].map((item, idx) => (
-              <a key={idx} href={item.href}
-                {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
-                className="flex items-center justify-between group py-3.5 border-b border-[#eeecea] dark:border-[#2a2a27]">
-                <span className="text-sm text-[#2a2a27] dark:text-[#999691] group-hover:text-[#111110] dark:group-hover:text-[#e8e6e1] transition-colors">
-                  {item.label}
-                </span>
-                <span className="inline-flex items-center gap-1 font-mono text-xs text-[#6b6b66] dark:text-[#555451] group-hover:text-[#111110] dark:group-hover:text-[#e8e6e1] transition-colors">
-                  {item.display} <ArrowUpRight size={11} />
-                </span>
-              </a>
+              <div key={idx} className="flex items-center justify-between py-2 border-b border-[#eeecea] dark:border-[#2a2a27]">
+                <span className="text-sm text-[#2a2a27] dark:text-[#999691]">{item.label}</span>
+                <a href={item.href}
+                  {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  className="inline-flex items-center gap-1 text-sm text-[#111110] dark:text-[#e8e6e1] hover:text-[#c4623a] transition-colors font-medium">
+                  {item.display} <ArrowUpRight size={13} />
+                </a>
+              </div>
             ))}
           </div>
 
-          <div className="border border-[#d0cdc6] dark:border-[#2a2a27] rounded-lg p-6">
+          <div className="border border-[#e0ddd6] dark:border-[#2a2a27] rounded-xl p-6 bg-white/50 dark:bg-white/[0.02]">
             {formState === 'success' ? (
               <div className="flex flex-col items-center justify-center text-center py-10">
                 <CheckCircle2 size={32} className="text-[#c4623a] mb-3" />
@@ -585,23 +579,23 @@ export default function App() {
             ) : (
               <form onSubmit={handleContactSubmit} className="space-y-5">
                 {[
-                  { label: t.contact.formName, type: 'text', name: 'name' },
-                  { label: t.contact.formEmail, type: 'email', name: 'email' },
+                  { label: t.contact.formName, type: 'text', name: 'name', placeholder: t.contact.formNamePlaceholder },
+                  { label: t.contact.formEmail, type: 'email', name: 'email', placeholder: t.contact.formEmailPlaceholder },
                 ].map((field, idx) => (
                   <div key={idx}>
                     <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
                       {field.label}
                     </label>
-                    <input type={field.type} name={field.name} required
-                      className="w-full bg-transparent border border-[#d0cdc6] dark:border-[#2a2a27] rounded px-3 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors" />
+                    <input type={field.type} name={field.name} required placeholder={field.placeholder}
+                      className="w-full bg-transparent border border-[#e0ddd6] dark:border-[#2a2a27] rounded-lg px-3.5 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] placeholder-[#a09e96] dark:placeholder-[#666461] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors" />
                   </div>
                 ))}
                 <div>
                   <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
                     {t.contact.formMessage}
                   </label>
-                  <textarea rows={4} name="message" required
-                    className="w-full bg-transparent border border-[#d0cdc6] dark:border-[#2a2a27] rounded px-3 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors resize-none" />
+                  <textarea rows={4} name="message" required placeholder={t.contact.formMessagePlaceholder}
+                    className="w-full bg-transparent border border-[#e0ddd6] dark:border-[#2a2a27] rounded-lg px-3.5 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] placeholder-[#a09e96] dark:placeholder-[#666461] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors resize-none" />
                 </div>
 
                 <Turnstile ref={turnstileRef} onTokenChange={setTurnstileToken} />
@@ -611,7 +605,7 @@ export default function App() {
                 )}
 
                 <button type="submit" disabled={formState === 'sending'}
-                  className="w-full bg-[#c4623a] hover:bg-[#a8522e] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 px-4 rounded transition-colors">
+                  className="w-full bg-[#c4623a] hover:bg-[#a8522e] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 px-4 rounded-lg transition-colors">
                   {formState === 'sending' ? t.contact.sending : t.contact.sendButton}
                 </button>
               </form>

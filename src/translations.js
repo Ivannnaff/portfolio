@@ -30,8 +30,8 @@ export const translations = {
           heading: "Side projects and coursework.",
           body: "A few things I'm actively building right now.",
           links: [
-            { label: "Task Manager AI", url: "https://github.com/IvanAkbarAlfahrezi/task-manager" },
-            { label: "Nusantara Hub", url: "https://github.com/IvanAkbarAlfahrezi/nusantara-hub" }
+            { label: "Task Manager AI", url: "https://github.com/Ivannnaff/task-manager" },
+            { label: "Nusantara Hub", url: "https://github.com/Ivannnaff/nusantara-hub" }
           ]
         },
         {
@@ -70,14 +70,14 @@ export const translations = {
           category: "Web App · AI",
           description: "A college task manager with a drag-and-drop Kanban board and an AI assistant powered by Google Gemini. Upload course materials (PDF, Word, PPT, Excel, images) to get summaries, answer keys, and auto-generated quizzes — all stored in Supabase.",
           tags: ["React", "TypeScript", "Next.js", "Supabase", "Gemini"],
-          repoUrl: "https://github.com/IvanAkbarAlfahrezi/task-manager",
+          repoUrl: "https://github.com/Ivannnaff/task-manager",
         },
         {
           title: "Nusantara Hub",
           category: "Python App · Streamlit",
           description: "A Streamlit web app with a neo-brutalist interface combining a landing page, an interactive chat, and a repository browser, backed by MySQL.",
           tags: ["Python", "Streamlit", "MySQL", "CSS"],
-          repoUrl: "https://github.com/IvanAkbarAlfahrezi/nusantara-hub",
+          repoUrl: "https://github.com/Ivannnaff/nusantara-hub",
         }
       ]
     },
@@ -86,13 +86,13 @@ export const translations = {
       subtitle: "My academic path in Informatics and ongoing web development journey.",
       items: [
         {
-          period: "2023 — PRESENT",
+          period: "2024 — PRESENT",
           role: "Informatics Student",
           company: "Universitas PGRI Semarang (UPGRIS)",
           description: "Pursuing a Bachelor degree in Informatics. Actively studying core computer science concepts, algorithms, database management, and web engineering."
         },
         {
-          period: "2023 — PRESENT",
+          period: "2024 — PRESENT",
           role: "Web Developer (Independent Exploration)",
           company: "Self-Trained / Projects",
           description: "Actively building and deploying web applications using PHP (Laravel), React, and Next.js, focusing on clean code structure and responsive interfaces."
@@ -105,10 +105,13 @@ export const translations = {
       emailLabel: "Direct Email",
       githubLabel: "GitHub Profile",
       linkedinLabel: "LinkedIn",
-      twitterLabel: "Twitter / X",
+      twitterLabel: "Instagram",
       formName: "Your Name",
+      formNamePlaceholder: "Ivan Akbar",
       formEmail: "Email Address",
+      formEmailPlaceholder: "ivan@example.com",
       formMessage: "Message",
+      formMessagePlaceholder: "Let's talk",
       sendButton: "Send Message",
       successMessage: "Message transmitted successfully. I will be in touch shortly.",
       errorHuman: "Please verify that you are not a robot.",
@@ -133,7 +136,7 @@ export const translations = {
           label: "Editor",
           items: [
             { name: "VS Code", note: "My main editor. Clean, fast, and has everything I need." },
-            { name: "Neovim", note: "For quick edits in the terminal." },
+            { name: "Grafity", note: "For quick edits and writing." },
           ]
         },
         {
@@ -169,7 +172,6 @@ export const translations = {
         {
           label: "Misc",
           items: [
-            { name: "Notion", note: "Notes, planning, and personal knowledge base." },
             { name: "GitHub", note: "All my projects live here." },
             { name: "Postman", note: "API testing and debugging." },
           ]
@@ -322,8 +324,8 @@ export const translations = {
           heading: "Proyek sampingan dan tugas kuliah.",
           body: "Beberapa hal yang sedang saya kerjakan saat ini.",
           links: [
-            { label: "Task Manager AI", url: "https://github.com/IvanAkbarAlfahrezi/task-manager" },
-            { label: "Nusantara Hub", url: "https://github.com/IvanAkbarAlfahrezi/nusantara-hub" }
+            { label: "Task Manager AI", url: "https://github.com/Ivannnaff/task-manager" },
+            { label: "Nusantara Hub", url: "https://github.com/Ivannnaff/nusantara-hub" }
           ]
         },
         {
@@ -362,14 +364,14 @@ export const translations = {
           category: "Web App · AI",
           description: "Aplikasi manajemen tugas kuliah dengan papan Kanban drag-and-drop dan asisten AI berbasis Google Gemini. Unggah materi kuliah (PDF, Word, PPT, Excel, gambar) untuk mendapat ringkasan, kunci jawaban, dan kuis otomatis — tersimpan di Supabase.",
           tags: ["React", "TypeScript", "Next.js", "Supabase", "Gemini"],
-          repoUrl: "https://github.com/IvanAkbarAlfahrezi/task-manager",
+          repoUrl: "https://github.com/Ivannnaff/task-manager",
         },
         {
           title: "Nusantara Hub",
           category: "Python App · Streamlit",
           description: "Aplikasi web Streamlit bertampilan neo-brutalist yang menggabungkan halaman beranda, chat interaktif, dan penjelajah repository, didukung MySQL.",
           tags: ["Python", "Streamlit", "MySQL", "CSS"],
-          repoUrl: "https://github.com/IvanAkbarAlfahrezi/nusantara-hub",
+          repoUrl: "https://github.com/Ivannnaff/nusantara-hub",
         }
       ]
     },
@@ -378,16 +380,16 @@ export const translations = {
       subtitle: "Jalur akademik saya di bidang Informatika dan eksplorasi pengembangan web.",
       items: [
         {
-          period: "2023 — SEKARANG",
+          period: "2024 — SEKARANG",
           role: "Mahasiswa Teknik Informatika",
           company: "Universitas PGRI Semarang (UPGRIS)",
-          description: "Menempuh studi sarjana di bidang Teknik Informatika. Aktif mempelajari konsep dasar ilmu komputer, algoritma, basis data, dan rekayasa web."
+          description: "Menempuh studi S1 Informatika. Aktif mempelajari konsep ilmu komputer dasar, algoritma, manajemen basis data, dan teknik web."
         },
         {
-          period: "2023 — SEKARANG",
+          period: "2024 — SEKARANG",
           role: "Web Developer (Eksplorasi Mandiri)",
-          company: "Proyek Pribadi / Mandiri",
-          description: "Aktif membangun dan mendeploy aplikasi web menggunakan PHP (Laravel), React, dan Next.js dengan fokus pada struktur kode dan antarmuka responsif."
+          company: "Self-Trained / Proyek",
+          description: "Aktif membangun dan mendeploy aplikasi web menggunakan PHP (Laravel), React, dan Next.js, dengan fokus pada struktur kode yang bersih dan antarmuka responsif."
         }
       ]
     },
@@ -397,10 +399,13 @@ export const translations = {
       emailLabel: "Email Langsung",
       githubLabel: "Profil GitHub",
       linkedinLabel: "LinkedIn",
-      twitterLabel: "Twitter / X",
+      twitterLabel: "Instagram",
       formName: "Nama Anda",
+      formNamePlaceholder: "Ivan Akbar",
       formEmail: "Alamat Email",
+      formEmailPlaceholder: "ivan@contoh.com",
       formMessage: "Pesan",
+      formMessagePlaceholder: "Let's talk",
       sendButton: "Kirim Pesan",
       successMessage: "Pesan berhasil dikirim. Saya akan segera menghubungi Anda.",
       errorHuman: "Verifikasi dulu bahwa Anda bukan robot.",
@@ -424,8 +429,8 @@ export const translations = {
         {
           label: "Editor",
           items: [
-            { name: "VS Code", note: "Editor utamaku. Cepat, bersih, dan punya semua yang dibutuhkan." },
-            { name: "Neovim", note: "Untuk edit cepat di terminal." },
+            { name: "VS Code", note: "Editor utama saya. Bersih, cepat, dan lengkap." },
+            { name: "Grafity", note: "Untuk suntingan cepat dan menulis." },
           ]
         },
         {
@@ -461,7 +466,6 @@ export const translations = {
         {
           label: "Lainnya",
           items: [
-            { name: "Notion", note: "Catatan, perencanaan, dan basis pengetahuan pribadi." },
             { name: "GitHub", note: "Semua proyekku ada di sini." },
             { name: "Postman", note: "Testing dan debugging API." },
           ]

@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function Footer({ t, tracks = [], navigate }) {
+  const [timeStr, setTimeStr] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const time = new Intl.DateTimeFormat('en-GB', options).format(now);
+      setTimeStr(`It's ${time} at UTC+7`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const navItems = [
     { label: t.nav.home,    to: '/'        },
     { label: t.nav.now,     to: '/now'     },
@@ -16,7 +30,7 @@ export default function Footer({ t, tracks = [], navigate }) {
 
   const connect = [
     { label: 'GitHub',    href: 'https://github.com/Ivannnaff', external: true },
-    { label: 'LinkedIn',  href: 'https://linkedin.com', external: true },
+    { label: 'LinkedIn',  href: 'https://linkedin.com/in/IvanAkbarAlfahrezi', external: true },
     { label: 'Instagram', href: 'https://instagram.com/ivannnaff', external: true },
     { label: 'Email',     href: 'mailto:ivanalfa647@gmail.com' },
   ];
@@ -135,6 +149,15 @@ export default function Footer({ t, tracks = [], navigate }) {
           </div>
 
         </div>
+
+        {/* Live Time */}
+        {timeStr && (
+          <div className="mt-12 pt-6 border-t border-[#eeecea] dark:border-[#2a2a27] flex justify-end">
+            <p className="font-mono text-xs text-[#6b6b66] dark:text-[#555451]">
+              {timeStr}
+            </p>
+          </div>
+        )}
       </div>
     </footer>
   );
