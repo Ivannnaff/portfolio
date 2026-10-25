@@ -13,7 +13,7 @@ import Turnstile from './components/Turnstile';
 import CodeCard from './components/CodeCard';
 
 const getLoc = () => ({
-  path: window.location.pathname || '/',
+  path: typeof window !== 'undefined' ? window.location.pathname : '/',
 });
 
 const LASTFM_USER = "ivannaff_";

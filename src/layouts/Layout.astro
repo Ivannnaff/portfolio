@@ -1,6 +1,6 @@
 ---
 import '../style.css';
-import App from '../App.jsx';
+import { ClientRouter as ViewTransitions } from 'astro:transitions';
 ---
 
 <html lang="id">
@@ -13,6 +13,15 @@ import App from '../App.jsx';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@500;600;700&family=Archivo:wght@500;600;700&family=Geist:wght@400;500;600;700&family=Sora:wght@500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <ViewTransitions />
+    <script is:inline>
+      const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
   </head>
   <body class="bg-[#fefaf3] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] min-h-screen">
     <slot />
