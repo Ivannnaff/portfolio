@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
-const resend = new Resend(import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY || 're_placeholder');
+const resend = new Resend(import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY);
 const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY;
 
 export const POST: APIRoute = async ({ request }) => {
