@@ -233,6 +233,10 @@ export const translations = {
       layoutWide: "Wide",
       layoutWider: "Wider",
     },
+    notFound: {
+      message: "Ah, you've wandered into uncharted territory. This page doesn't exist or has been moved somewhere else.",
+      button: "Back to Home"
+    },
     resume: {
       title: "Resume",
       name: "Ivan Akbar Alfahrezi",
@@ -526,6 +530,10 @@ export const translations = {
       layoutDefault: "Standar",
       layoutWide: "Lebar",
       layoutWider: "Sangat Lebar",
-    }
+    },
+    notFound: {
+      message: "Sepertinya Anda tersesat ke wilayah yang belum dipetakan. Halaman ini tidak ada atau telah dipindahkan.",
+      button: "Kembali ke Beranda"
+    },
   }
 };

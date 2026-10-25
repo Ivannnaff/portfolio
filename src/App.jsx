@@ -36,12 +36,10 @@ export default function App() {
 
   const t = translations[lang];
 
-  const page =
-    loc.path === '/now'     ? 'now'     :
-    loc.path === '/uses'    ? 'uses'    :
-    loc.path === '/til'     ? 'til'     :
-    loc.path === '/resume'  ? 'resume'  :
-    loc.path === '/contact' ? 'contact' : 'home';
+  const pages = ['home', 'now', 'uses', 'til', 'resume', 'contact'];
+  const page = pages.includes(loc.path.substring(1)) 
+    ? loc.path.substring(1) 
+    : (loc.path === '/' ? 'home' : '404');
 
   // Dynamic Document Title
   useEffect(() => {
@@ -332,6 +330,25 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* ===== 404 PAGE ===== */}
+      {page === '404' && (
+        <main className="max-w-2xl mx-auto px-6 py-24 flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <h1 className="font-mono text-8xl font-bold text-[#111110] dark:text-[#e8e6e1] mb-6">404</h1>
+          <p className="text-sm text-[#3a3a36] dark:text-[#999691] mb-8 max-w-md">
+            {t.notFound.message}
+          </p>
+          <button 
+            onClick={() => navigate('/')}
+            className="text-sm font-medium px-6 py-2.5 rounded-xl border border-[#e0ddd6] dark:border-[#2a2a27] hover:border-[#c4623a] transition-colors"
+          >
+            {t.notFound.button}
+          </button>
+          <div className="mt-16 w-full">
+            <Footer t={t} tracks={tracks} navigate={navigate} />
+          </div>
+        </main>
+      )}
 
       {/* ===== HOME PAGE ===== */}
       {page === 'home' && (
