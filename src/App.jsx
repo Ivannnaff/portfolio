@@ -44,14 +44,14 @@ export default function App() {
   // Dynamic Document Title
   useEffect(() => {
     const titles = {
-      home: "Ivan Akbar Alfahrezi — Full-Stack Developer",
-      now: "Now — Ivan Akbar Alfahrezi",
-      uses: "Uses — Ivan Akbar Alfahrezi",
-      til: "TIL — Ivan Akbar Alfahrezi",
-      contact: "Contact — Ivan Akbar Alfahrezi",
-      resume: "Resume — Ivan Akbar Alfahrezi",
+      home: "Ivannnaff | Full-Stack web developer",
+      now: "Now",
+      uses: "Uses",
+      til: "TIL",
+      contact: "Contact",
+      resume: "Resume",
     };
-    document.title = titles[page] || "Ivan Akbar Alfahrezi";
+    document.title = titles[page] || "Ivannnaff";
   }, [page]);
 
   // Outside click for dock settings
