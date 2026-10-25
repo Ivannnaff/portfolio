@@ -5,7 +5,10 @@ import {
   SlidersHorizontal, Check
 } from 'lucide-react';
 import { translations } from './translations';
+import UsesPage from './pages/Uses';
+import TilPage from './pages/Til';
 import Footer from './components/Footer';
+import ResumePage from './pages/Resume';
 import Turnstile from './components/Turnstile';
 import CodeCard from './components/CodeCard';
 
@@ -555,31 +558,13 @@ export default function App() {
       )}
 
       {/* ===== USES PAGE ===== */}
-      {page === 'uses' && (
-        <main className="max-w-2xl mx-auto px-6 py-16">
-          <h1 className="text-2xl font-medium tracking-tight mb-3">Uses</h1>
-          <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed mb-8">Software, hardware, and gadgets I use daily.</p>
-          <Footer t={t} tracks={tracks} navigate={navigate} />
-        </main>
-      )}
+      {page === 'uses' && <UsesPage t={t} tracks={tracks} navigate={navigate} />}
 
       {/* ===== TIL PAGE ===== */}
-      {page === 'til' && (
-        <main className="max-w-2xl mx-auto px-6 py-16">
-          <h1 className="text-2xl font-medium tracking-tight mb-3">Today I Learned</h1>
-          <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed mb-8">A collection of bite-sized things I learn.</p>
-          <Footer t={t} tracks={tracks} navigate={navigate} />
-        </main>
-      )}
+      {page === 'til' && <TilPage t={t} tracks={tracks} navigate={navigate} />}
 
       {/* ===== RESUME PAGE ===== */}
-      {page === 'resume' && (
-        <main className="max-w-2xl mx-auto px-6 py-16">
-          <h1 className="text-2xl font-medium tracking-tight mb-3">Resume</h1>
-          <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed mb-8">My professional background and experience.</p>
-          <Footer t={t} tracks={tracks} navigate={navigate} />
-        </main>
-      )}
+      {page === 'resume' && <ResumePage t={t} navigate={navigate} />}
 
       {/* ===== CONTACT PAGE (up2dul style + form) ===== */}
       {page === 'contact' && (
