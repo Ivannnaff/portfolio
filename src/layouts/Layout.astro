@@ -5,6 +5,7 @@ interface Props {
 
 const { title = "Ivan Akbar Alfahrezi — Full-Stack Developer" } = Astro.props;
 import Footer from '../components/Footer.jsx';
+import FloatingNav from '../components/FloatingNav.jsx';
 import '../styles/global.css';
 ---
 
@@ -14,17 +15,12 @@ import '../styles/global.css';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#faf8f5] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased selection:bg-[#c4623a]/20">
-    <header class="max-w-2xl mx-auto px-6 pt-10 pb-6 flex items-center justify-between">
-      <nav class="flex items-center gap-6 text-sm font-medium">
-        <a href="/" class="hover:text-[#c4623a] transition-colors">Home</a>
-        <a href="/now" class="hover:text-[#c4623a] transition-colors">Now</a>
-        <a href="/uses" class="hover:text-[#c4623a] transition-colors">Uses</a>
-        <a href="/resume" class="hover:text-[#c4623a] transition-colors">Resume</a>
-        <a href="/contact" class="hover:text-[#c4623a] transition-colors">Contact</a>
-      </nav>
-    </header>
+    <FloatingNav client:load />
     <slot />
     <Footer client:load />
   </body>
