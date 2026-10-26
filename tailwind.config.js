@@ -5,17 +5,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        anthropic: {
-          light: '#faf8f5',
-          dark: '#111110',
-          accent: '#c4623a',
-          muted: '#6b6b66',
-          darkMuted: '#999691',
-        }
+        bg: 'var(--bg)',
+        surface: 'var(--surface)',
+        border: 'var(--border)',
+        fg: 'var(--fg)',
+        muted: 'var(--muted)',
+        accent: {
+          DEFAULT: 'var(--accent)',
+          hover: 'var(--accent-hover)',
+        },
       },
       fontFamily: {
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['Fira Code', 'monospace'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
       },
     },
   },
