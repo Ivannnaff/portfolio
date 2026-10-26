@@ -566,7 +566,7 @@ export default function App() {
       {/* ===== RESUME PAGE ===== */}
       {page === 'resume' && <ResumePage t={t} navigate={navigate} />}
 
-      {/* ===== CONTACT PAGE (up2dul style + form) ===== */}
+      {/* ===== CONTACT PAGE (up2dul style, no form) ===== */}
       {page === 'contact' && (
         <main className="max-w-2xl mx-auto px-6 py-16">
           <div className="mb-10">
@@ -574,7 +574,7 @@ export default function App() {
             <p className="text-[#2a2a27] dark:text-[#999691] leading-relaxed">{t.contact.subtitle}</p>
           </div>
 
-          <div className="space-y-4 mb-10">
+          <div className="space-y-4 mb-12">
             {[
               { label: "Email", href: 'mailto:ivanalfa647@gmail.com', display: 'ivanalfa647@gmail.com' },
               { label: "GitHub", href: 'https://github.com/Ivannnaff', display: 'github.com/Ivannnaff', external: true },
@@ -590,49 +590,6 @@ export default function App() {
                 </a>
               </div>
             ))}
-          </div>
-
-          <div className="border border-[#e0ddd6] dark:border-[#2a2a27] rounded-xl p-6 bg-white/50 dark:bg-white/[0.02]">
-            {formState === 'success' ? (
-              <div className="flex flex-col items-center justify-center text-center py-10">
-                <CheckCircle2 size={32} className="text-[#c4623a] mb-3" />
-                <p className="text-sm font-medium mb-1">{t.contact.sendButton}</p>
-                <p className="text-sm text-[#3a3a36] dark:text-[#888683]">{t.contact.successMessage}</p>
-              </div>
-            ) : (
-              <form onSubmit={handleContactSubmit} className="space-y-5">
-                {[
-                  { label: t.contact.formName, type: 'text', name: 'name', placeholder: t.contact.formNamePlaceholder },
-                  { label: t.contact.formEmail, type: 'email', name: 'email', placeholder: t.contact.formEmailPlaceholder },
-                ].map((field, idx) => (
-                  <div key={idx}>
-                    <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
-                      {field.label}
-                    </label>
-                    <input type={field.type} name={field.name} required placeholder={field.placeholder}
-                      className="w-full bg-transparent border border-[#e0ddd6] dark:border-[#2a2a27] rounded-lg px-3.5 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] placeholder-[#a09e96] dark:placeholder-[#666461] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors" />
-                  </div>
-                ))}
-                <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-[#4a4a46] dark:text-[#555451] mb-2">
-                    {t.contact.formMessage}
-                  </label>
-                  <textarea rows={4} name="message" required placeholder={t.contact.formMessagePlaceholder}
-                    className="w-full bg-transparent border border-[#e0ddd6] dark:border-[#2a2a27] rounded-lg px-3.5 py-2.5 text-sm text-[#111110] dark:text-[#e8e6e1] placeholder-[#a09e96] dark:placeholder-[#666461] focus:outline-none focus:border-[#c4623a] dark:focus:border-[#c4623a] transition-colors resize-none" />
-                </div>
-
-                <Turnstile ref={turnstileRef} onTokenChange={setTurnstileToken} />
-
-                {formState === 'error' && formError && (
-                  <p className="text-sm text-[#c4623a]">{formError}</p>
-                )}
-
-                <button type="submit" disabled={formState === 'sending'}
-                  className="w-full bg-[#c4623a] hover:bg-[#a8522e] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 px-4 rounded-lg transition-colors">
-                  {formState === 'sending' ? t.contact.sending : t.contact.sendButton}
-                </button>
-              </form>
-            )}
           </div>
 
           <Footer t={t} tracks={tracks} navigate={navigate} />
