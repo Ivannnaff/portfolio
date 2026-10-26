@@ -12,48 +12,9 @@
 			"handle": "filesystem"
 		},
 		{
-			"src": "^/_server-islands/([^/]+?)/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/_image/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/404/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/api/contact/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/contact/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/now/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/resume/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/til/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/uses/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/.*$",
-			"dest": "_render"
+			"dest": "/404.html",
+			"status": 404
 		}
 	]
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../components/Footer';
+import Footer from '../Footer';
 
 export default function UsesPage({ t, tracks, navigate }) {
   const uses = t.uses;

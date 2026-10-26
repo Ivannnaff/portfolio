@@ -5,12 +5,12 @@ import {
   SlidersHorizontal, Check
 } from 'lucide-react';
 import { translations } from './translations';
-import UsesPage from './pages/Uses';
-import TilPage from './pages/Til';
-import Footer from './components/Footer';
-import ResumePage from './pages/Resume';
+import UsesPage from './components/pages/Uses';
+import TilPage from './components/pages/Til';
+import ResumePage from './components/pages/Resume';
 import Turnstile from './components/Turnstile';
 import CodeCard from './components/CodeCard';
+import Footer from './components/Footer';
 
 const getLoc = () => ({
   path: typeof window !== 'undefined' ? window.location.pathname : '/',
