@@ -1,14 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { siteData } from '../data/siteData';
-import FloatingNavbar from '../components/FloatingNavbar.jsx';
 import Footer from '../components/Footer.jsx';
 ---
 
 <Layout title={`${siteData.name} | ${siteData.role}`}>
-  <FloatingNavbar client:load />
-  
-  <main class="max-w-2xl mx-auto px-6 pt-24 pb-12">
+  <main class="max-w-2xl mx-auto px-6 pt-12 pb-12">
     <!-- Hero -->
     <section class="mb-16">
       <h1 class="text-5xl font-serif leading-tight tracking-tight mb-6">
