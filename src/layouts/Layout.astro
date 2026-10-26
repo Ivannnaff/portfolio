@@ -1,0 +1,31 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = "Ivan Akbar Alfahrezi — Full-Stack Developer" } = Astro.props;
+import Footer from '../components/Footer.jsx';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-[#faf8f5] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased selection:bg-[#c4623a]/20">
+    <header class="max-w-2xl mx-auto px-6 pt-10 pb-6 flex items-center justify-between">
+      <nav class="flex items-center gap-6 text-sm font-medium">
+        <a href="/" class="hover:text-[#c4623a] transition-colors">Home</a>
+        <a href="/now" class="hover:text-[#c4623a] transition-colors">Now</a>
+        <a href="/uses" class="hover:text-[#c4623a] transition-colors">Uses</a>
+        <a href="/resume" class="hover:text-[#c4623a] transition-colors">Resume</a>
+        <a href="/contact" class="hover:text-[#c4623a] transition-colors">Contact</a>
+      </nav>
+    </header>
+    <slot />
+    <Footer client:load />
+  </body>
+</html>

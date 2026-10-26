@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { translations } from '../translations';
+const t = translations.en;
+---
+
+<Layout title="Now — Ivan Akbar">
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <div class="mb-10">
+      <h1 class="text-2xl font-medium tracking-tight mb-3">{t.now.title}</h1>
+      <p class="text-[#2a2a27] dark:text-[#999691] leading-relaxed">{t.now.subtitle}</p>
+    </div>
+    <div class="space-y-6 text-sm text-[#3a3a36] dark:text-[#999691]">
+      <p>Currently focused on building scalable web applications with Laravel, React, and Astro, while completing my undergraduate studies.</p>
+    </div>
+    <p class="mt-12 text-xs font-mono text-[#6b6b66] dark:text-[#555451]">{t.now.footer}</p>
+  </main>
+</Layout>

@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { translations } from '../translations';
+const t = translations.en;
+---
+
+<Layout title="Contact — Ivan Akbar">
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <div class="mb-10">
+      <h1 class="text-2xl font-medium tracking-tight mb-3">{t.contact.title}</h1>
+      <p class="text-[#2a2a27] dark:text-[#999691] leading-relaxed">{t.contact.subtitle}</p>
+    </div>
+
+    <div class="space-y-4 mb-12">
+      {[
+        { label: "Email", href: 'mailto:ivanalfa647@gmail.com', display: 'ivanalfa647@gmail.com' },
+        { label: "GitHub", href: 'https://github.com/Ivannnaff', display: 'github.com/Ivannnaff', external: true },
+        { label: "LinkedIn", href: 'https://linkedin.com/in/IvanAkbarAlfahrezi', display: 'linkedin.com/in/IvanAkbarAlfahrezi', external: true },
+        { label: "Instagram", href: 'https://instagram.com/ivannnaff', display: 'instagram.com/ivannnaff', external: true },
+      ].map((item) => (
+        <div class="flex items-center justify-between py-2 border-b border-[#eeecea] dark:border-[#2a2a27]">
+          <span class="text-sm text-[#2a2a27] dark:text-[#999691]">{item.label}</span>
+          <a href={item.href}
+            {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+            class="inline-flex items-center gap-1 text-sm text-[#111110] dark:text-[#e8e6e1] hover:text-[#c4623a] transition-colors font-medium">
+            {item.display} ↗
+          </a>
+        </div>
+      ))}
+    </div>
+  </main>
+</Layout>

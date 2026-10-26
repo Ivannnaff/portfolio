@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { translations } from '../translations';
+const r = translations.en.resume;
+---
+
+<Layout title="Resume — Ivan Akbar">
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <div class="mb-12">
+      <h1 class="text-3xl font-semibold tracking-tight text-[#111110] dark:text-[#e8e6e1] mb-2">
+        <span class="text-[#c4623a]">Ivan</span> Akbar Alfahrezi
+      </h1>
+      <p class="text-base text-[#3a3a36] dark:text-[#999691] mb-4">{r.role}</p>
+      <div class="flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-[#4a4a46] dark:text-[#6b6b66] font-mono">
+        <span>{r.location}</span>
+        <a href={`mailto:${r.email}`} class="hover:text-[#c4623a] transition-colors">{r.email}</a>
+        <a href={`https://${r.github}`} target="_blank" rel="noreferrer" class="hover:text-[#c4623a] transition-colors">{r.github}</a>
+      </div>
+    </div>
+
+    <section class="mb-12 pb-12 border-b border-[#e2e0db] dark:border-[#2a2a27]">
+      <h2 class="font-mono text-[10px] uppercase tracking-widest text-[#6b6b66] dark:text-[#555451] mb-4">Profile</h2>
+      <p class="text-[#2a2a27] dark:text-[#c8c6c0] leading-relaxed">{r.summary}</p>
+    </section>
+
+    <section class="mb-12 pb-12 border-b border-[#e2e0db] dark:border-[#2a2a27]">
+      <h2 class="font-mono text-[10px] uppercase tracking-widest text-[#6b6b66] dark:text-[#555451] mb-8">Experience</h2>
+      <div class="space-y-8">
+        {r.experience.map((exp) => (
+          <div>
+            <div class="flex items-baseline justify-between gap-4 mb-1">
+              <h3 class="font-medium text-[#111110] dark:text-[#e8e6e1]">{exp.role}</h3>
+              <span class="font-mono text-xs text-[#6b6b66] dark:text-[#555451] shrink-0">{exp.period}</span>
+            </div>
+            <p class="text-sm text-[#c4623a] mb-3">{exp.company}</p>
+            <div class="space-y-2">
+              {exp.points.map((point) => (
+                <p class="text-sm text-[#3a3a36] dark:text-[#999691] leading-relaxed pl-4 border-l-2 border-[#e2e0db] dark:border-[#2a2a27]">
+                  {point}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-12 pb-12 border-b border-[#e2e0db] dark:border-[#2a2a27]">
+      <h2 class="font-mono text-[10px] uppercase tracking-widest text-[#6b6b66] dark:text-[#555451] mb-6">Skills</h2>
+      <div class="space-y-3">
+        {[
+          { label: 'Languages', items: r.skills.languages },
+          { label: 'Frontend',  items: r.skills.frontend  },
+          { label: 'Backend',   items: r.skills.backend   },
+          { label: 'Tools',     items: r.skills.tools     },
+        ].map((group) => (
+          <div class="flex gap-6 items-baseline">
+            <span class="w-20 shrink-0 font-mono text-[10px] uppercase tracking-wider text-[#6b6b66] dark:text-[#555451]">
+              {group.label}
+            </span>
+            <p class="text-sm text-[#3a3a36] dark:text-[#999691]">
+              {group.items.join(' · ')}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
