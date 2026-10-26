@@ -1,29 +1,31 @@
 ---
-import '../style.css';
-import { ClientRouter as ViewTransitions } from 'astro:transitions';
+interface Props {
+  title?: string;
+}
+
+const { title = "Ivan Akbar Alfahrezi — Full-Stack Developer" } = Astro.props;
 ---
 
-<html lang="id">
+<!doctype html>
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23111110%22/><text x=%2250%22 y=%2270%22 font-family=%22system-ui, sans-serif%22 font-size=%2265%22 font-weight=%22bold%22 fill=%22%23e8e6e1%22 text-anchor=%22middle%22>I</text></svg>" />
-    <title>Ivan Akbar Alfahrezi</title>
-    <meta name="description" content="Full-stack web developer. Building with Laravel, React, and Next.js." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@500;600;700&family=Archivo:wght@500;600;700&family=Geist:wght@400;500;600;700&family=Sora:wght@500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <ViewTransitions />
-    <script is:inline>
-      const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
   </head>
-  <body class="bg-[#fefaf3] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] min-h-screen">
+  <body class="bg-[#faf8f5] dark:bg-[#111110] text-[#111110] dark:text-[#e8e6e1] font-sans antialiased selection:translate-y-0 selection:bg-[#c4623a]/20">
+    <header class="max-w-2xl mx-auto px-6 pt-10 pb-6 flex items-center justify-between">
+      <nav class="flex items-center gap-6 text-sm font-medium">
+        <a href="/" class="hover:text-[#c4623a] transition-colors">Home</a>
+        <a href="/now" class="hover:text-[#c4623a] transition-colors">Now</a>
+        <a href="/uses" class="hover:text-[#c4623a] transition-colors">Uses</a>
+        <a href="/contact" class="hover:text-[#c4623a] transition-colors">Contact</a>
+      </nav>
+    </header>
     <slot />
+    <footer class="max-w-2xl mx-auto px-6 py-12 text-xs font-mono text-[#6b6b66] dark:text-[#555451] border-t border-[#eeecea] dark:border-[#2a2a27] mt-20">
+      © {new Date().getFullYear()} Ivan Akbar Alfahrezi
+    </footer>
   </body>
 </html>
