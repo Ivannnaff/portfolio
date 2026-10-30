@@ -5,127 +5,50 @@ import Footer from '../components/Footer.jsx';
 ---
 
 <Layout title={`${siteData.name} | ${siteData.role}`}>
-  <main class="max-w-2xl mx-auto px-6 pt-12 pb-12">
-    <!-- Hero -->
-    <section class="mb-16">
-      <h1 class="text-5xl font-serif leading-tight tracking-tight mb-6">
-        <span class="text-accent">{siteData.name.split(' ')[0]}</span> {siteData.name.split(' ').slice(1).join(' ')}
+  <main class="max-w-2xl mx-auto px-6 pt-16 pb-24">
+    <!-- Hero Section -->
+    <section class="mb-20">
+      <h1 class="text-5xl sm:text-6xl font-serif leading-tight tracking-tight mb-6">
+        {siteData.name}
       </h1>
-      <p class="text-sm font-mono text-muted uppercase tracking-widest mb-6">
+      <p class="text-lg sm:text-xl text-muted mb-8">
         {siteData.role}
       </p>
-      <p class="text-xl leading-relaxed text-fg/90 mb-8 max-w-xl">
+      <p class="text-base leading-relaxed text-fg/90 mb-10 max-w-2xl">
         {siteData.bio}
       </p>
       
-      <div class="flex flex-wrap gap-4 mb-10">
-        <a href="/resume" class="px-6 py-2.5 rounded-full bg-fg text-bg font-medium text-sm transition-transform hover:scale-[1.02] active:scale-95">
+      <div class="flex flex-wrap gap-3 mb-12">
+        <a href="/resume" class="px-6 py-2.5 rounded-full bg-fg text-bg font-medium text-sm transition-all hover:scale-105 active:scale-95">
           View CV
         </a>
-        <a href="#projects" class="px-6 py-2.5 rounded-full border border-border text-fg font-medium text-sm transition-colors hover:bg-surface">
+        <a href="#experience" class="px-6 py-2.5 rounded-full border border-border text-fg font-medium text-sm transition-all hover:bg-surface">
           View Projects
         </a>
       </div>
-
-      <div class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs text-muted">
-        <span class="flex items-center gap-1.5 hover:text-fg transition-colors cursor-default">
-          📍 {siteData.location}
-        </span>
-        <a href={`mailto:${siteData.email}`} class="hover:text-accent transition-colors underline underline-offset-4 decoration-border">
-          {siteData.email}
-        </a>
-        <a href={`https://${siteData.github}`} target="_blank" rel="noreferrer" class="hover:text-accent transition-colors underline underline-offset-4 decoration-border">
-          {siteData.github}
-        </a>
-      </div>
     </section>
 
-    <!-- Decoration Scenery Illustration -->
+    <!-- Scenery Illustration -->
     <div class="w-full h-48 bg-surface/30 rounded-3xl border border-border/50 mb-20 overflow-hidden flex items-end justify-center relative">
-       <svg width="100%" height="100%" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50 grayscale dark:invert transition-all duration-700">
+       <svg width="100%" height="100%" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-40 grayscale dark:invert transition-all duration-700">
          <path d="M0 180C150 140 300 190 450 160C600 130 750 170 800 150V200H0V180Z" fill="var(--accent)" opacity="0.1" />
          <path d="M0 190C100 170 200 195 300 185C400 175 500 190 600 180C700 170 800 190 800 190V200H0V190Z" fill="var(--accent)" opacity="0.2" />
-         <circle cx="650" cy="60" r="30" fill="var(--accent)" opacity="0.05" />
+         <circle cx="650" cy="50" r="30" fill="var(--accent)" opacity="0.05" />
        </svg>
     </div>
 
-    <!-- Experience -->
-    <section class="mb-20">
-      <p class="font-mono text-[10px] uppercase text-muted tracking-[0.2em] mb-10">EXPERIENCE</p>
-      <div class="space-y-12">
+    <!-- Experience Section -->
+    <section id="experience" class="mb-20">
+      <h2 class="text-2xl font-serif mb-10">Experience</h2>
+      <div class="space-y-8">
         {siteData.experience.map((exp) => (
-          <div>
-            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-2">
-              <h3 class="text-lg font-medium text-fg">{exp.role}</h3>
-              <span class="font-mono text-xs text-muted">{exp.period}</span>
+          <div class="group">
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+              <p class="text-base font-medium text-fg">{exp.period}</p>
             </div>
-            <a href="#" class="text-accent font-medium text-sm hover:underline underline-offset-4 mb-4 inline-block">
-              {exp.company}
-            </a>
-            <ul class="space-y-3 mt-2">
-              {exp.points.map((point) => (
-                <li class="pl-5 border-l-2 border-border text-sm leading-relaxed text-muted hover:text-fg transition-colors">
-                  {point}
-                </li>
-              ))}
-            </ul>
+            <h3 class="text-lg font-medium text-fg mb-1">{exp.role} at <span class="text-accent">{exp.company}</span></h3>
+            <p class="text-sm text-muted mb-3">Full-time</p>
           </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="mb-20 scroll-mt-24">
-      <p class="font-mono text-[10px] uppercase text-muted tracking-[0.2em] mb-10">PROJECTS</p>
-      <div class="grid grid-cols-1 gap-6">
-        {siteData.projects.map((project) => (
-          <a href={project.url} target="_blank" rel="noreferrer" class="group block p-6 rounded-2xl border border-border bg-surface/20 transition-all hover:bg-surface hover:border-accent/30 active:scale-[0.99]">
-            <div class="flex items-center justify-between mb-2">
-              <h3 class="text-lg font-serif group-hover:text-accent transition-colors">{project.name}</h3>
-              <div class="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted group-hover:text-accent group-hover:border-accent/30 transition-colors">
-                ↗
-              </div>
-            </div>
-            <p class="text-sm text-muted leading-relaxed mb-4">
-              {project.desc}
-            </p>
-            <div class="flex flex-wrap gap-2 mt-auto">
-              {project.tech.split(', ').map((t) => (
-                <span class="px-2.5 py-0.5 rounded-full bg-border/50 text-[10px] font-mono text-muted uppercase tracking-wider">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Now Section -->
-    <section class="mb-20">
-      <p class="font-mono text-[10px] uppercase text-muted tracking-[0.2em] mb-10">NOW</p>
-      <ul class="space-y-4">
-        {siteData.now.map((item) => (
-          <li class="flex items-start gap-3 text-sm text-fg/90">
-            <span class="text-accent mt-1">→</span>
-            {item}
-          </li>
-        ))}
-      </ul>
-      <a href="/now" class="inline-block mt-8 text-xs font-mono text-accent hover:text-accent-hover transition-colors underline underline-offset-4">
-        Learn more about what I'm doing now
-      </a>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="mb-12">
-      <p class="font-mono text-[10px] uppercase text-muted tracking-[0.2em] mb-10">CONTACT</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {siteData.links.connect.map((link) => (
-          <a href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined} class="flex items-center justify-between p-4 rounded-xl border border-border hover:bg-surface hover:border-accent/20 transition-all group">
-            <span class="text-sm font-medium">{link.label}</span>
-            <span class="text-muted group-hover:text-accent transition-colors">↗</span>
-          </a>
         ))}
       </div>
     </section>

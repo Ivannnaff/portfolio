@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Compass, Wrench, FileText, Mail, Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Globe } from 'lucide-react';
+import { translations } from '../translations';
 
 export default function FloatingNavbar() {
   const [theme, setTheme] = useState('dark');
+  const [lang, setLang] = useState('en');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark');
     setTheme(isDark ? 'dark' : 'light');
 
-    let lastScroll = 0;
+    const savedLang = localStorage.getItem('lang') || 'en';
+    setLang(savedLang);
+
     const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      setScrolled(currentScroll > 40);
-      lastScroll = currentScroll;
+      setScrolled(window.scrollY > 20);
     };
 
+    setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -27,41 +30,65 @@ export default function FloatingNavbar() {
     document.documentElement.classList.toggle('dark', next === 'dark');
   };
 
+  const toggleLang = () => {
+    const next = lang === 'en' ? 'id' : 'en';
+    setLang(next);
+    localStorage.setItem('lang', next);
+    window.dispatchEvent(new CustomEvent('langchange', { detail: next }));
+  };
+
+  const t = translations[lang]?.nav || translations.en.nav;
+
   const navItems = [
-    { href: '/', label: 'Home', icon: Home },
-    { href: '/now', label: 'Now', icon: Compass },
-    { href: '/uses', label: 'Uses', icon: Wrench },
-    { href: '/resume', label: 'Resume', icon: FileText },
-    { href: '/contact', label: 'Contact', icon: Mail },
+    { href: '/', label: t.home },
+    { href: '/now', label: t.now },
+    { href: '/uses', label: t.uses },
+    { href: '/uses', label: 'TIL' },
+    { href: '/contact', label: t.contact },
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300">
-      <nav className={`flex items-center gap-1 px-3 py-2 rounded-full border border-border bg-surface/80 backdrop-blur-md shadow-lg transition-all duration-300 ${scrolled ? 'p-1.5' : 'px-3 py-2'}`}>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-muted hover:text-fg hover:bg-border/50 transition-all ${scrolled ? 'px-2' : ''}`}
-            >
-              <Icon size={14} />
-              <span className={`transition-all duration-300 overflow-hidden ${scrolled ? 'w-0 opacity-0 hidden sm:inline' : 'w-auto opacity-100'}`}>
-                {item.label}
-              </span>
-            </a>
-          );
-        })}
-        <div className="w-[1px] h-4 bg-border mx-1" />
-        <button
-          onClick={toggleTheme}
-          className="p-1.5 rounded-full text-muted hover:text-fg hover:bg-border/50 transition-all"
-          aria-label="Toggle Theme"
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 pointer-events-none">
+      <div className="max-w-2xl w-full px-6 flex justify-center">
+        <nav
+          className={`pointer-events-auto flex items-center justify-between w-full transition-all duration-300 ease-out ${
+            scrolled
+              ? 'px-6 py-2.5 rounded-2xl bg-surface/90 backdrop-blur-md shadow-lg shadow-black/5 dark:shadow-black/20 scale-[0.98] max-w-lg border-0'
+              : 'px-0 py-1 bg-transparent shadow-none border-0'
+          }`}
         >
-          {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-        </button>
-      </nav>
-    </div>
+          <div className="flex items-center gap-6 text-sm font-medium">
+            {navItems.map((item, idx) => (
+              <a
+                key={idx}
+                href={item.href}
+                className="text-muted hover:text-fg transition-colors duration-200 text-sm"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleLang}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-mono text-muted hover:text-fg hover:bg-border/40 transition-all duration-200 uppercase"
+              aria-label="Translate"
+              title="Switch Language"
+            >
+              <Globe size={14} />
+              <span>{lang}</span>
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-md text-muted hover:text-fg hover:bg-border/40 transition-all duration-200"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
   );
 }
